@@ -1,0 +1,47 @@
+<configuration>
+	<property name="defaultMsgPattern" value="[%d{dd/MM/yyyy HH:mm:ss.SSS} %t] %-5p %c{1}: %m%n"/>
+
+	<!-- <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ALL</level>
+		</filter>
+		<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+				<driverClass>[DRIVER]</driverClass>
+				<jdbcUrl>[CONNECTION URL]</jdbcUrl>
+				<user>[USER]</user>
+				<password>[PASSWORD]</password>
+			</dataSource>
+		</connectionSource>
+	</appender>
+	
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="DB" />
+		<includeCallerData>true</includeCallerData>
+	</appender> -->
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<file>procedures.log</file>
+		<encoder>
+			<pattern>${defaultMsgPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<encoder>
+			<pattern>${defaultMsgPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<root level="DEBUG">
+		<!-- <appender-ref ref="ASYNC" /> -->
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

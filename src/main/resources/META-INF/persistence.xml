@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	
+	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+		<description>Default Persistence Unit</description>
+
+		<!--
+			******************************************************************************
+			Persistence provider for persistence layer (DAOs) unit tests.
+			This archetype supports Hibernate (JBoss default) and 
+			EclipseLink (Glassfish default) implementation.
+			This configuration is Glassfish enabled by default (Reference implementation).
+			Uncomment the Hibernate provider for use Hibernate. Implementation also must 
+			be selected in project POM (JBoss/Hibernate or Glassfish).
+			******************************************************************************
+		-->
+		
+		<!-- <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
+		<!-- <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> -->
+				
+		<!--
+			******************************************************************************
+			<class> tag only necessary for unit tests because the entity source code has 
+			been located in sparated folder that application.
+			******************************************************************************
+		-->
+		
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="sa" />
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+
+			<!-- Use of EclipseLink -->
+			<property name="eclipselink.logging.level" value="FINE" />
+      		<!-- <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.oracle.Oracle10Platform"/> -->
+			
+			<!-- Use of Hibernate -->
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.transaction.flush_before_completion" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
+			
+      		<!-- Use of Open JPA -->
+      		<property name="openjpa.jdbc.DBDictionary" value="oracle"/>      		
+		</properties>
+	</persistence-unit>
+</persistence>
