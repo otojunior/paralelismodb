@@ -26,11 +26,11 @@ public class ParalelismoDbDao {
 	
 	private static final String QUERY_ITERACOES = 
 		"select generate_series as id " + 
-		"from generate_series(1, 20)";
+		"from generate_series(1, 10)";
 	
 	private static final String QUERY_EXECUCAO_PROCEDURE = 
 		"select now " + 
-		"from now(), pg_sleep((mod(cast(random()*(10^9) as integer),10)+5))";
+		"from now(), pg_sleep(5)";
 	
 	/**
 	 * Construtor padrão.

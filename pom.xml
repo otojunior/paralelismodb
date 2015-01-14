@@ -24,6 +24,7 @@
 		<dependency.version.junit>4.11</dependency.version.junit>
 		<dependency.version.easymock>3.2</dependency.version.easymock>
 		<dependency.version.powermock>1.5.6</dependency.version.powermock>
+		<dependency.version.eclipselink>2.5.2</dependency.version.eclipselink>
 		<dependency.version.hibernate>4.3.6.Final</dependency.version.hibernate>
 		<dependency.version.hibernate-validator>5.1.2.Final</dependency.version.hibernate-validator>
 		<dependency.version.h2>1.3.176</dependency.version.h2>
@@ -77,11 +78,6 @@
 		    <version>${dependency.version.commons-dbutils}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-pool2</artifactId>
-		    <version>2.2</version>
-		</dependency>
-		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
 		    <version>${dependency.version.slf4j}</version>
@@ -104,7 +100,7 @@
 		<dependency>
 		    <groupId>org.eclipse.persistence</groupId>
 		    <artifactId>eclipselink</artifactId>
-		    <version>2.5.2</version>
+		    <version>${dependency.version.eclipselink}</version>
 		</dependency>
 		<!-- <dependency>
 			<groupId>org.hibernate</groupId>
