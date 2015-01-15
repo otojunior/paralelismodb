@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.dbutils.DbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +19,6 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class ServiceLocator {
-	private static final Logger LOG = LoggerFactory.getLogger(ServiceLocator.class);
-	
-	private static ServiceLocator instance;
-	
-	private String jdbcDriver;
-	private String jdbcUrl;
-	private String jdbcUser;
-	private String jdbcPassword;
-	
 	public synchronized static ServiceLocator getInstance() {
 		if (instance == null) {
 			instance = new ServiceLocator();
@@ -32,26 +26,34 @@ public class ServiceLocator {
 		return instance;
 	}
 	
-	/**
-	 * 
-	 */
-	private ServiceLocator() {
-		this.jdbcDriver = Config.JDBC_DRIVER;
-		this.jdbcUrl = Config.JDBC_URL;
-		this.jdbcUser = Config.JDBC_USER;
-		this.jdbcPassword = Config.JDBC_PASSWORD;
+	private static final Logger LOG = LoggerFactory.getLogger(ServiceLocator.class);
+	private static ServiceLocator instance;
 		
-		DbUtils.loadDriver(jdbcDriver);
-		LOG.info("Loaded driver: " + jdbcDriver);
-	}
+	private Configuration config;
 	
 	/**
-	 * 
-	 * @return
+	 * Construtor padrão.
+	 */
+	private ServiceLocator() {
+		try {
+			config = new PropertiesConfiguration("config.properties");
+			loadJdbcDriver();
+		} catch (ConfigurationException e) {
+			LOG.error("Erro na carga do arquivo de configuração", e);
+		}
+	}
+
+	/**
+	 * Cria a conexão.
+	 * @return Conexão Jdbc.
 	 */
 	public Connection createConnection() {
 		Connection connection = null;
 		try {
+			String jdbcUrl = config.getString("jdbc.url");
+			String jdbcUser = config.getString("jdbc.user");;
+			String jdbcPassword = config.getString("jdbc.password");
+
 			connection = DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("JDBC URL: " + jdbcUrl);
@@ -61,5 +63,14 @@ public class ServiceLocator {
 			LOG.error("Erro ao obter conexão", e);
 		}
 		return connection;
+	}
+	
+	/**
+	 * Carrega o driver JDBC.
+	 */
+	private void loadJdbcDriver() {
+		String jdbcDriver = config.getString("jdbc.driver");
+		DbUtils.loadDriver(jdbcDriver);
+		LOG.info("Loaded driver: " + jdbcDriver);
 	}
 }
