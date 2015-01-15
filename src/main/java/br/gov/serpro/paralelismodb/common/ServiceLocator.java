@@ -8,8 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.dbutils.DbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,12 +33,8 @@ public class ServiceLocator {
 	 * Construtor padrão.
 	 */
 	private ServiceLocator() {
-		try {
-			config = new PropertiesConfiguration("config.properties");
-			loadJdbcDriver();
-		} catch (ConfigurationException e) {
-			LOG.error("Erro na carga do arquivo de configuração", e);
-		}
+		config = ConfigurationBuilder.getConfiguration();
+		loadJdbcDriver();
 	}
 
 	/**

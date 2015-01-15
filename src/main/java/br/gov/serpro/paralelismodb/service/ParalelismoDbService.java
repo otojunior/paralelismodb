@@ -5,11 +5,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.gov.serpro.paralelismodb.common.ConfigurationBuilder;
 import br.gov.serpro.paralelismodb.dao.ParalelismoDbDao;
 
 /**
@@ -28,15 +27,11 @@ public class ParalelismoDbService {
 	 * Construtor padrão.
 	 */
 	public ParalelismoDbService() {
-		try {
-			config = new PropertiesConfiguration("config.properties");
-			proceduresDao = new ParalelismoDbDao();
-			int nThreads = config.getInt("procedures.threads");
-			executorService = Executors.newFixedThreadPool(nThreads);
-			LOG.info("Threads simultâneas: " + nThreads);
-		} catch (ConfigurationException e) {
-			LOG.error("Erro na carga da configuração", e);
-		}
+		config = ConfigurationBuilder.getConfiguration();
+		proceduresDao = new ParalelismoDbDao();
+		int nThreads = config.getInt("procedures.threads");
+		executorService = Executors.newFixedThreadPool(nThreads);
+		LOG.info("Threads simultâneas: " + nThreads);
 	}
 	
 	/**
