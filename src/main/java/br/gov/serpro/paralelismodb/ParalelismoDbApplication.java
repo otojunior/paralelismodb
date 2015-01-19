@@ -6,7 +6,7 @@ import br.gov.serpro.paralelismodb.service.ParalelismoDbService;
 
 /**
  * Application Main Class.
- * @author <Author name>
+ * @author [Author name]
  */
 public final class ParalelismoDbApplication {
 	/**
